@@ -1,8 +1,8 @@
 export class Invoice {
-    constructor(a, b, c) {
-        this.client = a;
-        this.details = b;
-        this.amount = c;
+    constructor(client, details, amount) {
+        this.client = client;
+        this.details = details;
+        this.amount = amount;
     }
     format() {
         return ` ${this.client} owes ${this.amount} for ${this.details}`;

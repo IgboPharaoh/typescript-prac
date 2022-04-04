@@ -1,51 +1,31 @@
 import { Invoice } from "./classes/Invoice.js";
-const me = {
-    name: "shaun",
-    age: 34,
-    speak(a) {
-        console.log(a);
-    },
-    spend(b) {
-        return b;
-    },
-};
+import { ListTemplate } from "./classes/ListTemplate.js";
+import { Payment } from "./classes/Payments.js";
 const form = document.querySelector(".new-item-form");
 const type = document.querySelector("#type");
 const tofrom = document.querySelector("#tofrom");
 const details = document.querySelector("#details");
 const amount = document.querySelector("#amount");
-// this only works with when access modifiers are used
-class InvoiceMaker {
-    constructor(client, buyer, price) {
-        this.client = client;
-        this.buyer = buyer;
-        this.price = price;
-    }
-    result() {
-        return this.price < 34
-            ? `${this.client} is still in the beginner level with ${this.buyer}`
-            : `${this.client} has only ${this.price} `;
-    }
-}
-const invoiceThree = new InvoiceMaker("Dax", "fela", 4014);
-const invoiceFour = new InvoiceMaker("Pax", "Chidi", 32);
-let invoicesW = [];
-invoicesW.push(invoiceThree);
-invoicesW.push(invoiceFour);
-invoicesW.forEach((inv) => {
-    console.log(inv.result());
-});
-console.log(invoicesW);
-const invoiceOne = new Invoice("Dax", "plumbing", 259);
-const invoiceTwo = new Invoice("Pax", "climbing", 540);
-let invoices = [];
-invoices.push(invoiceOne);
-invoices.push(invoiceTwo);
-invoices.forEach((inv) => {
-    console.log(inv.client, inv.amount, inv.format());
-});
-// console.log(invoices);
+// list  template instance
+const ul = document.querySelector("ul");
+const list = new ListTemplate(ul);
+let values;
+values = [tofrom.value, details.value, amount.valueAsNumber];
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log(type.value, tofrom.value, details.value, amount.valueAsNumber);
+    let doc;
+    if (type.value === "invoice") {
+        doc = new Invoice(...values);
+    }
+    else {
+        doc = new Payment(...values);
+    }
+    list.render(doc, type.value, "end");
+    console.log(doc);
 });
+const addUID = (obj) => {
+    let uuid = Math.floor(Math.random() * 100);
+    return Object.assign(Object.assign({}, obj), { uuid });
+};
+let docOne = addUID({ name: "shanks", school: "St. Benedict", houseNo: 34 });
+console.log(docOne);
